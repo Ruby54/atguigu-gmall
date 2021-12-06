@@ -11,6 +11,7 @@
     <modules>
         <module>gmall-stats-webapi</module>
         <module>gmall-report</module>
+        <module>gmall-commons</module>
     </modules>
 
 </project>
