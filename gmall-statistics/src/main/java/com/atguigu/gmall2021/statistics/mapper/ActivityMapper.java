@@ -15,9 +15,9 @@ import java.util.List;
  */
 public interface ActivityMapper {
 
-    @Select("  SELECT  activity_name from ads_activity_stats where dt=#{dt}"  )
-    List<String> getActivityNameByDt(@Param("dt") String dt);
+    @Select("  SELECT  activity_name from ads_activity_stats where start_date=#{startDate} group by activity_id"  )
+    List<String> getActivityNameByStartDate(@Param("startDate") String startDate);
 
-    @Select("  SELECT  * from ads_activity_stats where dt=#{selectDay} and activity_name=#{activityName}"  )
+    @Select("  SELECT  * from ads_activity_stats where start_date=#{startDate} and activity_name=#{activityName}"  )
     List<AdsActivityStats> getActivityList(QActivity qActivity);
 }

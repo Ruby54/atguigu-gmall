@@ -7,15 +7,13 @@ import lombok.NoArgsConstructor;
  * @program: gmall
  * @description:
  * @author: Zhao Yi
- * @create: 2021-12-06 14:41
+ * @create: 2021-12-06 22:09
  */
-
 @Data
 @NoArgsConstructor
-public class QActivity {
+public class QCoupon {
 
     private String startDate;
 
-    private String activityName;
-
+    private String couponName;
 }

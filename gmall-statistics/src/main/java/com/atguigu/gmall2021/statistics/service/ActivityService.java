@@ -17,7 +17,7 @@ public interface ActivityService {
      * @param qActivity
      * @return
      */
-    List<String> getActivityNameByDt(QActivity qActivity);
+    List<String> getActivityNameByStartDate(QActivity qActivity);
 
     /**
      * 根据时间名称和dt查询所有

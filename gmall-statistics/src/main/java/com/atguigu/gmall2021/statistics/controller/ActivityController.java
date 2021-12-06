@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * @program: gmall
- * @description: 活动统计
+ * @description: 最近30天发布的活动的补贴率
  * @author: Zhao Yi
  * @create: 2021-12-04 16:03
  */
@@ -23,13 +23,23 @@ public class ActivityController {
     @Autowired
     private ActivityService activityService;
 
-    @RequestMapping(value ="getActivityNameByDt",method = {RequestMethod.POST})
+    /**
+     * 根据开始时间查询活动名称
+     * @param qActivity
+     * @return
+     */
+    @RequestMapping(value ="getActivityNameByStartDate",method = {RequestMethod.POST})
     @CrossOrigin
-    public List<String> getActivityNameByDt(@RequestBody QActivity qActivity) {
-        List<String> activityNameList = activityService.getActivityNameByDt(qActivity);
+    public List<String> getActivityNameByStartDate(@RequestBody QActivity qActivity) {
+        List<String> activityNameList = activityService.getActivityNameByStartDate(qActivity);
         return activityNameList;
     }
 
+    /**
+     * 根据开始时间和活动名称查询所有活动统计
+     * @param qActivity
+     * @return
+     */
     @RequestMapping(value ="getActivityList",method = {RequestMethod.POST})
     @ResponseBody
     @CrossOrigin

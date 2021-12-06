@@ -23,8 +23,8 @@ public class ActivityServiceImpl  implements ActivityService {
 
 
     @Override
-    public List<String> getActivityNameByDt(QActivity qActivity) {
-        return activityMapper.getActivityNameByDt(qActivity.getSelectDay());
+    public List<String> getActivityNameByStartDate(QActivity qActivity) {
+        return activityMapper.getActivityNameByStartDate(qActivity.getStartDate());
     }
 
     @Override
