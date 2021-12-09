@@ -1,23 +1,19 @@
 package com.atguigu.gmall2021.statistics.service.impl;
 
-import com.atguigu.gmall2021.statistics.bean.DtCount;
-import com.atguigu.gmall2021.statistics.bean.NameValueData;
-import com.atguigu.gmall2021.statistics.bean.QOrder;
+import com.atguigu.gmall2021.statistics.bean.*;
 import com.atguigu.gmall2021.statistics.mapper.OrderTotalMapper;
 import com.atguigu.gmall2021.statistics.service.OrderService;
 import com.atguigu.gmall2021.statistics.utils.EchartsConverter;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @program: gmall
@@ -45,6 +41,37 @@ public class OrderServiceImpl implements OrderService {
 
         return EchartsConverter.converterFromNameValue(userTotalMap, false).toJSONString();
 
+    }
+
+    @Override
+    public AdsTradeStats getTradeByDaysAndDt(int days, String dt) {
+
+        return orderTotalMapper.getTradeByDaysAndDt(days,dt);
+    }
+
+    @Override
+    public List<Map> getOrderProvinceData(int days, String dt,String orderSelect) {
+
+        List<Map> orderProvinceList = new ArrayList<>();
+        List<AdsOrderByProvince> orderProvinceDataList = new ArrayList<>();
+        if(orderSelect.equals("订单数")){
+            orderProvinceDataList = orderTotalMapper.getOrderProvinceCount(days, dt);
+        }else{
+            orderProvinceDataList = orderTotalMapper.getOrderProvinceTotalAmount(days, dt);
+        }
+        if(!CollectionUtils.isEmpty(orderProvinceDataList)){
+            for(AdsOrderByProvince adsOrderByProvince : orderProvinceDataList){
+                Map<String, String> orderProvinceMap = new HashMap<>();
+                orderProvinceMap.put("name",adsOrderByProvince.getProvince_name());
+                if(adsOrderByProvince.getOrder_count()!=0){
+                    orderProvinceMap.put("value",Integer.toString(adsOrderByProvince.getOrder_count()));
+                }else{
+                    orderProvinceMap.put("value",adsOrderByProvince.getOrder_total_amount().toString());
+                }
+                orderProvinceList.add(orderProvinceMap);
+            }
+        }
+        return orderProvinceList ;
     }
 
     /**

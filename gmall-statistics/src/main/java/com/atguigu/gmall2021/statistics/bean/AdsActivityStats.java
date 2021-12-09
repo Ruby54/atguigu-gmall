@@ -3,6 +3,8 @@ package com.atguigu.gmall2021.statistics.bean;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 /**
  * @program: gmall
  * @description:
@@ -36,6 +38,6 @@ public class AdsActivityStats {
     /**
      * 补贴率
      */
-    private String reduce_rate;
+    private BigDecimal reduce_rate;
 
 }
