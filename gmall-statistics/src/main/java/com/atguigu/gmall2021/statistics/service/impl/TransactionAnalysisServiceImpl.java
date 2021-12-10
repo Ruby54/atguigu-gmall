@@ -37,45 +37,50 @@ public class TransactionAnalysisServiceImpl implements TransactionAnalysisServic
 
     @Override
     public List<NameValueData> getStatsWideByItem(String itemName, String date, String type) {
-
-        List<NameValueData> dataList=new ArrayList<>();
-        //判断type类型，如果为gender是统计查询，为age则为明细查询
-        if("gender".equals(type)) {
-            Map genderMap = getStatsWideByItem(itemName, date, "user_gender", 2);
-
-            if(genderMap!=null&&genderMap.size()>0){
-                Long femaleCount = (Long)genderMap.get("F");
-                Long  maleCount = (Long)genderMap.get("M");
-
-                dataList.add(new NameValueData("男", BigDecimal.valueOf(maleCount)));
-                dataList.add(new NameValueData("女",BigDecimal.valueOf(femaleCount)));
-            }
-            //明细查询
-        }else if("age".equals(type)){
-            Map<String,Long> statsMap = getStatsWideByItem(itemName, date, "user_age", 100);
-            Long ageLT20=0L;
-            Long ageGTE20LTE29=0L;
-            Long ageGTE30=0L;
-            if(statsMap!=null&&statsMap.size()>0){
-                for (Map.Entry<String,Long> entry : statsMap.entrySet() ) {
-                    Integer age  = Integer.valueOf(entry.getKey());
-                    Long ageCount=entry.getValue();
-                    if(age<20){
-                        ageLT20+=ageCount;
-                    }else if (age>=30){
-                        ageGTE30+=ageCount;
-                    }else{
-                        ageGTE20LTE29+=ageCount;
-                    }
-                }
-
-                dataList.add(new NameValueData("20岁以下",BigDecimal.valueOf(ageLT20)));
-                dataList.add(new NameValueData("20岁至29岁",BigDecimal.valueOf(ageGTE20LTE29)));
-                dataList.add(new NameValueData("30岁及以上",BigDecimal.valueOf(ageGTE30)));
-            }
-        }
-        return dataList;
+        return null;
     }
+
+//    @Override
+//    public List<NameValueData> getStatsWideByItem(String itemName, String date, String type) {
+//
+//        List<NameValueData> dataList=new ArrayList<>();
+//        //判断type类型，如果为gender是统计查询，为age则为明细查询
+//        if("gender".equals(type)) {
+//            Map genderMap = getStatsWideByItem(itemName, date, "user_gender", 2);
+//
+//            if(genderMap!=null&&genderMap.size()>0){
+//                Long femaleCount = (Long)genderMap.get("F");
+//                Long  maleCount = (Long)genderMap.get("M");
+//
+//                dataList.add(new NameValueData("男", BigDecimal.valueOf(maleCount)));
+//                dataList.add(new NameValueData("女",BigDecimal.valueOf(femaleCount)));
+//            }
+//            //明细查询
+//        }else if("age".equals(type)){
+//            Map<String,Long> statsMap = getStatsWideByItem(itemName, date, "user_age", 100);
+//            Long ageLT20=0L;
+//            Long ageGTE20LTE29=0L;
+//            Long ageGTE30=0L;
+//            if(statsMap!=null&&statsMap.size()>0){
+//                for (Map.Entry<String,Long> entry : statsMap.entrySet() ) {
+//                    Integer age  = Integer.valueOf(entry.getKey());
+//                    Long ageCount=entry.getValue();
+//                    if(age<20){
+//                        ageLT20+=ageCount;
+//                    }else if (age>=30){
+//                        ageGTE30+=ageCount;
+//                    }else{
+//                        ageGTE20LTE29+=ageCount;
+//                    }
+//                }
+//
+//                dataList.add(new NameValueData("20岁以下",BigDecimal.valueOf(ageLT20)));
+//                dataList.add(new NameValueData("20岁至29岁",BigDecimal.valueOf(ageGTE20LTE29)));
+//                dataList.add(new NameValueData("30岁及以上",BigDecimal.valueOf(ageGTE30)));
+//            }
+//        }
+//        return dataList;
+//    }
 
     /**
      * 明细查询
@@ -136,44 +141,44 @@ public class TransactionAnalysisServiceImpl implements TransactionAnalysisServic
 
 
 
-    /**
-     * 统计查询
-     */
-    public Map getStatsWideByItem(String itemName, String date, String dimName, Integer groupSize ) {
-        Map genderMap=new HashMap();
-        //索引名称
-        String indexName=INDEX_NAME_PREFIX+date;
-        //组织查询条件
-        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-        searchSourceBuilder.query(new MatchQueryBuilder("sku_name",itemName)
-                .operator(Operator.AND));
-
-        String aggName="groupby_"+dimName;
-
-        TermsAggregationBuilder ageAggBuilder = AggregationBuilders.terms(aggName)
-                .field(dimName).size(groupSize);
-        searchSourceBuilder.aggregation(ageAggBuilder);
-
-        Search search = new Search.Builder(searchSourceBuilder.toString())
-                .addIndex(indexName).build();
-        try {
-            SearchResult result = jestClient.execute(search);
-            //处理返回结果
-            if(result!=null&&result.isSucceeded()){
-                List<TermsAggregation.Entry> buckets =
-                        result.getAggregations().getTermsAggregation(aggName).getBuckets();
-                for (TermsAggregation.Entry bucket : buckets) {
-                    genderMap.put(bucket.getKey(),bucket.getCount());
-                }
-                return genderMap;
-            }else{
-                return  genderMap;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw  new RuntimeException("es查询错误");
-        }
-
-    }
+//    /**
+//     * 统计查询
+//     */
+//    public Map getStatsWideByItem(String itemName, String date, String dimName, Integer groupSize ) {
+//        Map genderMap=new HashMap();
+//        //索引名称
+//        String indexName=INDEX_NAME_PREFIX+date;
+//        //组织查询条件
+//        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+//
+//        searchSourceBuilder.query(new MatchQueryBuilder("sku_name",itemName)
+//                .operator(Operator.AND));
+//
+//        String aggName="groupby_"+dimName;
+//
+//        TermsAggregationBuilder ageAggBuilder = AggregationBuilders.terms(aggName)
+//                .field(dimName).size(groupSize);
+//        searchSourceBuilder.aggregation(ageAggBuilder);
+//
+//        Search search = new Search.Builder(searchSourceBuilder.toString())
+//                .addIndex(indexName).build();
+//        try {
+//            SearchResult result = jestClient.execute(search);
+//            //处理返回结果
+//            if(result!=null&&result.isSucceeded()){
+//                List<TermsAggregation.Entry> buckets =
+//                        result.getAggregations().getTermsAggregation(aggName).getBuckets();
+//                for (TermsAggregation.Entry bucket : buckets) {
+//                    genderMap.put(bucket.getKey(),bucket.getCount());
+//                }
+//                return genderMap;
+//            }else{
+//                return  genderMap;
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw  new RuntimeException("es查询错误");
+//        }
+//
+//    }
 }

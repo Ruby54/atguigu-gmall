@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @program: gmall
- * @description:
+ * @description:活动分析实现类
  * @author: Zhao Yi
  * @create: 2021-12-04 16:09
  */

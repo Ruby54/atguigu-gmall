@@ -33,6 +33,7 @@ public class OrderController {
         String orderTotalMap = orderService.getOrderTotal(qOrder);
         return orderTotalMap;
     }
+
     @RequestMapping(value ="getTradeByDaysAndDt",method = {RequestMethod.GET})
     @CrossOrigin
     public Response getTradeByDaysAndDt(@RequestParam int days, @RequestParam String dt){

@@ -14,4 +14,6 @@ public class NameValueData {
     String name;
     BigDecimal value;
 
+    String lable;
+
 }
