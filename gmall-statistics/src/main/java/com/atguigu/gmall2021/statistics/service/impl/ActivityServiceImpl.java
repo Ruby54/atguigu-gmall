@@ -4,9 +4,11 @@ import com.atguigu.gmall2021.statistics.bean.AdsActivityStats;
 import com.atguigu.gmall2021.statistics.bean.QActivity;
 import com.atguigu.gmall2021.statistics.mapper.ActivityMapper;
 import com.atguigu.gmall2021.statistics.service.ActivityService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,11 +26,19 @@ public class ActivityServiceImpl  implements ActivityService {
 
     @Override
     public List<String> getActivityNameByStartDate(QActivity qActivity) {
-        return activityMapper.getActivityNameByStartDate(qActivity.getStartDate());
+        List<String> nameList = new ArrayList<String>();
+        if(StringUtils.isNotEmpty(qActivity.getStartDate())){
+            nameList = activityMapper.getActivityNameByStartDate(qActivity.getStartDate());
+        }
+        return nameList;
     }
 
     @Override
     public List<AdsActivityStats> getActivityList(QActivity qActivity) {
-        return activityMapper.getActivityList(qActivity);
+        List<AdsActivityStats> activityList = new ArrayList<>();
+        if(qActivity!=null){
+            activityList = activityMapper.getActivityList(qActivity);
+        }
+        return activityList;
     }
 }

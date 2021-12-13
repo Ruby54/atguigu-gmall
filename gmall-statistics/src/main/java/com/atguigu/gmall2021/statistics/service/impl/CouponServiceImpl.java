@@ -4,9 +4,11 @@ import com.atguigu.gmall2021.statistics.bean.AdsCouponStats;
 import com.atguigu.gmall2021.statistics.bean.QCoupon;
 import com.atguigu.gmall2021.statistics.mapper.CouponMapper;
 import com.atguigu.gmall2021.statistics.service.CouponService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,11 +26,20 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public List<String> getCouponNameByStartDate(QCoupon qCoupon) {
-        return couponMapper.getCouponNameByStartDate(qCoupon.getStartDate());
+        List<String> nameList = new ArrayList<String>();
+        if(StringUtils.isNotEmpty(qCoupon.getStartDate())){
+            nameList = couponMapper.getCouponNameByStartDate(qCoupon.getStartDate());
+        }
+        return nameList;
     }
 
     @Override
     public List<AdsCouponStats> getCouponList(QCoupon qCoupon) {
-        return couponMapper.getCouponList(qCoupon);
+
+        List<AdsCouponStats> activityList = new ArrayList<>();
+        if(qCoupon!=null){
+            activityList = couponMapper.getCouponList(qCoupon);
+        }
+        return activityList;
     }
 }
