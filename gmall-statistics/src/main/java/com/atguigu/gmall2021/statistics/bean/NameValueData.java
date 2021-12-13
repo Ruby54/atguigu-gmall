@@ -16,4 +16,10 @@ public class NameValueData {
 
     String lable;
 
+
+    public NameValueData(String name,BigDecimal value){
+        this.name = name;
+        this.value = value;
+    }
+
 }
