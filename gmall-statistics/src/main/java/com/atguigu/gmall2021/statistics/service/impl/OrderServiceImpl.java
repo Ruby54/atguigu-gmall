@@ -24,23 +24,21 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderTotalMapper orderTotalMapper;
-    
-    /*** 
-     * @description: 获取订单的昨天、近7天以及近30天的订单数、GMV、下单人数 
+
+    /***
+     * @description: 获取订单的昨天、近7天以及近30天的订单数、GMV、下单人数
      * @params:   [days, dt]
-     * @return: java.util.Map 
-     * @date: 2021/9/28 
-     */ 
-    
+     * @return: java.util.Map
+     * @date: 2021/9/28
+     */
+
     @Override
     public String getOrderTotal(QOrder qOrder) {
         //dt = getStatsDt(dt);
         qOrder.setStartTime(getStatsDt(qOrder.getStartTime()));
         qOrder.setEndTime(getStatsDt(qOrder.getEndTime()));
         List<NameValueData> userTotalMap = orderTotalMapper.getOrderTotal(qOrder);
-
         return EchartsConverter.converterFromNameValue(userTotalMap, false).toJSONString();
-
     }
 
     @Override

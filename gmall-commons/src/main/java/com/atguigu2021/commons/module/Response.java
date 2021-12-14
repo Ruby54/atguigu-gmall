@@ -76,13 +76,10 @@ public class Response {
             if (message == null || message.isEmpty()) {
                 message = "some error occurs";
             }
-
             this.fail(message);
         }
-
         return this;
     }
-
     public void update(int status, String message) {
         this.status = status;
         this.message = htmlEncode(message);
